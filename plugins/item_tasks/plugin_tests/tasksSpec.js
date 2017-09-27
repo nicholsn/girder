@@ -133,10 +133,21 @@ describe('Run the item task', function () {
         }, 'get request on collection');
 
         // Create 2 items
+        var zeroFileItemPostReq;
         var oneFileItemPostReq;
         var twoFileItemPostReq;
         var item2Id;
         runs(function () {
+            girder.rest.restRequest({
+                url: 'item',
+                method: 'POST',
+                data: {
+                    folderId: folderId,
+                    name: 'zeroFileItem'
+                }
+            }).done(function (req) {
+                zeroFileItemPostReq = req;
+            })
             girder.rest.restRequest({
                 url: 'file',
                 method: 'POST',
@@ -185,7 +196,7 @@ describe('Run the item task', function () {
         });
 
         waitsFor(function () {
-            return oneFileItemPostReq && twoFileItemPostReq;
+            return oneFileItemPostReq && twoFileItemPostReq && zeroFileItemPostReq;
         }, 'rest requests');
 
         expect($('input[name="MaximumRadius"]').val()).toBe('20');
@@ -219,31 +230,7 @@ describe('Run the item task', function () {
             return $('.modal-dialog .g-item-list-link').length > 0;
         }, 'folder nav in input selection widget');
 
-        runs(function () {
-            expect($('.modal-dialog #g-selected-model').val()).toBe('');
-            // Select 'PET Phantom...' item, which has zero files
-            $('.modal-dialog .g-item-list-link:contains("PET")').click();
-            expect($('.modal-dialog #g-selected-model').val()).not.toBe('');
-            $('.modal-dialog .g-submit-button').click();
-        });
-
-        waitsFor(function () {
-            return $('.g-validation-failed-message').text();
-        }, 'selected zero file item to be validated');
-
         runs(function (){
-            expect($('.g-validation-failed-message').text()).toBe('Please select an item with exactly one file.');
-            $('.g-validation-failed-message').text('');
-            $('.modal-dialog .g-item-list-link:contains("twoFileItem")').click();
-            $('.modal-dialog .g-submit-button').click();
-        });
-
-        waitsFor(function () {
-            return $('.g-validation-failed-message').text();
-        }, 'selected two file item to be validated');
-
-        runs(function (){
-            expect($('.g-validation-failed-message').text()).toBe('Please select an item with exactly one file.');
             $('.g-validation-failed-message').text('');
             $('.modal-dialog .g-item-list-link:contains("oneFileItem")').click();
             $('.modal-dialog .g-submit-button').click();
@@ -682,6 +669,30 @@ describe('Navigate to the demo task', function () {
         }, 'folder nav in input selection widget');
 
         runs(function () {
+            expect($('.modal-dialog #g-selected-model').val()).toBe('');
+            $('.modal-dialog .g-item-list-link:contains("zeroFileItem")').click();
+            expect($('.modal-dialog #g-selected-model').val()).not.toBe('');
+            $('.modal-dialog .g-submit-button').click();
+        });
+
+        waitsFor(function () {
+            return $('.g-validation-failed-message').text();
+        }, 'selected item with zero files to be validated');
+
+        runs(function (){
+            expect($('.g-validation-failed-message').text()).toBe('Please select an item with exactly one file.');
+            $('.g-validation-failed-message').text('');
+            $('.modal-dialog .g-item-list-link:contains("twoFileItem")').click();
+            $('.modal-dialog .g-submit-button').click();
+        });
+
+        waitsFor(function () {
+            return $('.g-validation-failed-message').text();
+        }, 'selected item with two files to be validated');
+
+        runs(function (){
+            expect($('.g-validation-failed-message').text()).toBe('Please select an item with exactly one file.');
+            $('.g-validation-failed-message').text('');
             $('.modal-dialog .g-item-list-link:contains("oneFileItem")').click();
             $('.modal-dialog .g-submit-button').click();
         });
