@@ -41,10 +41,16 @@ latex_documents = [
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode'
 ]
 
 autodoc_mock_imports = list(_girder_requirements)
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'pymongo': ('https://api.mongodb.com/python/current/', None)
+}
 
 
 # Override the resolution of some targets
