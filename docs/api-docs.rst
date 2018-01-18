@@ -182,32 +182,73 @@ Folder
 
 Utility
 -------
-
-.. automodule:: girder.utility.assetstore_utilities
+.. automodule:: girder.utility
    :members:
 
 .. automodule:: girder.utility.abstract_assetstore_adapter
    :members:
 
-.. automodule:: girder.utility.model_importer
+.. automodule:: girder.utility.acl_mixin
    :members:
 
-.. automodule:: girder.utility.server
+.. automodule:: girder.utility.assetstore_utilities
    :members:
 
 .. automodule:: girder.utility.config
    :members:
 
+.. automodule:: girder.utility.filesystem_assetstore_adapter
+   :members:
+
+.. automodule:: girder.utility.gridfs_assetstore_adapter
+   :members:
+
+.. automodule:: girder.utility.hash_state
+   :members:
+
+.. automodule:: girder.utility.install
+   :members:
+
 .. automodule:: girder.utility.mail_utils
    :members:
 
-.. automodule:: girder.utility.progress
+.. automodule:: girder.utility.model_importer
    :members:
 
 .. automodule:: girder.utility.path
    :members:
 
+.. automodule:: girder.utility.plugin_utilities
+   :members:
+
+.. automodule:: girder.utility.progress
+   :members:
+
+.. automodule:: girder.utility.resource
+   :members:
+
+.. automodule:: girder.utility.s3_assetstore_adapter
+   :members:
+
+.. automodule:: girder.utility.search
+   :members:
+
+.. automodule:: girder.utility.server
+   :members:
+
 .. automodule:: girder.utility.setting_utilities
+   :members:
+
+.. automodule:: girder.utility.shell
+   :members:
+
+.. automodule:: girder.utility.system
+   :members:
+
+.. automodule:: girder.utility.webroot
+   :members:
+
+.. automodule:: girder.utility.ziputil
    :members:
 
 Constants
