@@ -1,34 +1,51 @@
 # -*- coding: utf-8 -*-
 
+import os
 import pkg_resources
-import sphinx_rtd_theme
 
+import sphinx_rtd_theme
 from sphinx.domains.python import PythonDomain
 
 needs_sphinx = '1.6'
 
-# The 'girder' package must be installed
-_girder_package = pkg_resources.get_distribution('girder')
-_girder_client_package = pkg_resources.get_distribution('girder_client')
-_girder_requirements = {
+
+_packages = [
+    next(pkg_resources.find_distributions(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), _package_location)),
+        only=True
+    ))
+    for _package_location in [
+        '..',  # girder
+        os.path.join('..', 'clients', 'python')  # girder_client
+    ]
+]
+_requirements = {
     _requirement.project_name.lower()
-    for _package in [_girder_package, _girder_client_package]
+    for _package in _packages
     for _requirement in _package.requires(_package.extras)
 }
+for _package in _packages:
+    # Add the package to sys.path, so autodoc can import it
+    _package.activate()
+
 # Add importable module names that are different from package names
-_girder_requirements |= {
+_requirements |= {
     'botocore',
     'bson',
     'dateutil',
     'requests_toolbelt',
     'yaml'
 }
+# The funcsigs package (only used in Python2) is necessary to ensure import-time logic in girder
+# executes correctly. For some reason (which doesn't apply to six), mocking it interferes with its
+# import, even if it's installed.
+_requirements.discard('funcsigs')
 
 master_doc = 'index'
 
 project = u'Girder'
 copyright = u'2014-2018, Kitware, Inc.'
-release = _girder_package.version
+release = _packages[0].version
 version = '.'.join(release.split('.')[:2])
 
 html_theme = 'sphinx_rtd_theme'
@@ -45,7 +62,7 @@ extensions = [
     'sphinx.ext.viewcode'
 ]
 
-autodoc_mock_imports = list(_girder_requirements)
+autodoc_mock_imports = list(_requirements)
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
