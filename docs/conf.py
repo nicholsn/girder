@@ -9,15 +9,27 @@ from sphinx.domains.python import PythonDomain
 needs_sphinx = '1.6'
 
 
-_packages = [
-    next(pkg_resources.find_distributions(
-        os.path.abspath(os.path.join(os.path.dirname(__file__), _package_location)),
-        only=True
-    ))
-    for _package_location in [
+for _package_location in [
         '..',  # girder
         os.path.join('..', 'clients', 'python')  # girder_client
-    ]
+    ]:
+    print os.path.abspath(os.path.join(os.path.dirname(__file__), _package_location))
+
+    print os.listdir(_package_location)
+
+    print list(pkg_resources.find_distributions(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), _package_location))
+    ))
+
+_packages = [
+    # next(pkg_resources.find_distributions(
+    #     os.path.abspath(os.path.join(os.path.dirname(__file__), _package_location)),
+    #     only=True
+    # ))
+    # for _package_location in [
+    #     '..',  # girder
+    #     os.path.join('..', 'clients', 'python')  # girder_client
+    # ]
 ]
 _requirements = {
     _requirement.project_name.lower()
