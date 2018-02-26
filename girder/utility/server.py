@@ -179,6 +179,7 @@ def configureServer(test=False, plugins=None, curConfig=None):
     }
 
     plugin.loadPlugins(plugins, info)
+    root, appconf = info['serverRoot'], info['config']
 
     return root, appconf
 
