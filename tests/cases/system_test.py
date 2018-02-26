@@ -258,7 +258,7 @@ class SystemTestCase(base.TestCase):
         self.assertNotIn('.gitignore', resp.json['all'])
 
         testPluginPath = os.path.normpath(os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), '..', '..', 'test', 'test_plugins'
+            os.path.dirname(os.path.abspath(__file__)), '..', 'test_plugins'
         ))
         self.mockPluginDir(testPluginPath)
 
@@ -296,7 +296,7 @@ class SystemTestCase(base.TestCase):
 
     def testBadPlugin(self):
         pluginRoot = os.path.normpath(os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), '..', '..', 'test', 'test_plugins'
+            os.path.dirname(os.path.abspath(__file__)), '..', 'test_plugins'
         ))
         self.mockPluginDir(pluginRoot)
 
